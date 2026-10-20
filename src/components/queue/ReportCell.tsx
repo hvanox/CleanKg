@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useI18n } from "@/i18n";
 import { categoryLabel } from "@/i18n/messages";
 import { fmt, formatDateTime } from "@/lib/format";
+import { reportHref } from "@/lib/paths";
 import type { Report } from "@/lib/types";
 import { blockedForVolunteers } from "@/lib/volunteer";
 import { DemoChip } from "../ui/Chips";
@@ -17,7 +18,7 @@ export function ReportCell({ report }: { report: Report }) {
   return (
     <div className="kg-reportcell">
       <p className="kg-reportcell__title">
-        <Link href={`/r/${report.id}`} className="kg-link" aria-label={`${category}, ${number}`}>
+        <Link href={reportHref(report.id)} className="kg-link" aria-label={`${category}, ${number}`}>
           {category}
         </Link>
         <span className="kg-mono-data kg-muted">{number}</span>

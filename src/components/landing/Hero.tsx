@@ -5,6 +5,7 @@ import Link from "next/link";
 import type { CSSProperties } from "react";
 import { useI18n } from "@/i18n";
 import { fmt } from "@/lib/format";
+import { publicPath } from "@/lib/paths";
 import type { Status } from "@/lib/types";
 import { ButtonLink } from "../ui/Button";
 import { DemoChip, StatusChip } from "../ui/Chips";
@@ -86,7 +87,7 @@ export function Hero() {
                   <div className="lp-pcard__photo">
                     {photo ? (
                       <Image
-                        src={photo}
+                        src={publicPath(photo)}
                         alt=""
                         fill
                         sizes="(min-width: 48em) 300px, 210px"

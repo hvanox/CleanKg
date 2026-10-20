@@ -4,6 +4,7 @@ import { CheckCircle, MapPin } from "@phosphor-icons/react";
 import Image from "next/image";
 import { Fragment } from "react";
 import { useI18n } from "@/i18n";
+import { publicPath } from "@/lib/paths";
 import { StatusChip } from "../ui/Chips";
 
 /** Words become separate spans so the reading can light up word by word on scroll. */
@@ -31,7 +32,7 @@ export function Statement() {
       <p className="lp-statement__text">
         <Words text={s.s1} />
         <span className="lp-inline lp-inline--photo">
-          <Image src="/landing/before.webp" alt={s.photoAlt} width={240} height={120} className="lp-inline__img" />
+          <Image src={publicPath("/landing/before.webp")} alt={s.photoAlt} width={240} height={120} className="lp-inline__img" />
         </span>{" "}
         <Words text={s.s2} />
         <span className="lp-inline lp-inline--pin" aria-hidden="true">

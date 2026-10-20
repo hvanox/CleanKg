@@ -49,3 +49,18 @@ export const EMPTY_DESCRIPTION = "демо: без описания";
 export const MAP_MIN_ZOOM = 6;
 export const MAP_MAX_ZOOM = 19;
 export const OSM_COPYRIGHT_URL = "https://www.openstreetmap.org/copyright";
+
+/**
+ * Data mode. Unset (default): every call goes to the FastAPI in prototipe/api over fetch.
+ * `NEXT_PUBLIC_DATA_MODE=browser` (the GitHub Pages build): every call is answered by the in-browser demo API in
+ * src/lib/demo-api/, with the state in localStorage. Read at build time; a function so tests can switch it.
+ */
+export function isBrowserMode(): boolean {
+  return process.env.NEXT_PUBLIC_DATA_MODE === "browser";
+}
+
+/** Sub-path of the static site (`/CleanKg` on GitHub Pages). Only the browser-mode build uses it, as next.config.ts does. */
+export function basePath(): string {
+  if (!isBrowserMode()) return "";
+  return (process.env.NEXT_PUBLIC_BASE_PATH ?? "").replace(/\/+$/, "");
+}

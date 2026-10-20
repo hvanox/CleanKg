@@ -1,0 +1,65 @@
+# CleanKg prototype on GitHub Pages: https://hvanox.github.io/CleanKg
+# A static export of this app whose data comes from the in-browser demo API (src/lib/demo-api), with state in the visitor's
+# localStorage. prototipe/web is the repository root. In the repository settings, Pages > Source must be «GitHub Actions».
+name: Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Type check
+        run: npx tsc --noEmit
+
+      - name: Test
+        run: npm test
+
+      - name: Build the static site
+        env:
+          NEXT_PUBLIC_DATA_MODE: browser
+          NEXT_PUBLIC_BASE_PATH: /CleanKg
+        run: npm run build
+
+      # Pages (deployed from an artifact) does not run Jekyll; the file keeps `_next/` safe if the site is ever served from a branch.
+      - name: Add .nojekyll
+        run: touch out/.nojekyll
+
+      - uses: actions/upload-pages-artifact@v5
+        with:
+          path: out
+          include-hidden-files: true
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v5

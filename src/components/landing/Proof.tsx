@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useState } from "react";
 import type { CSSProperties } from "react";
 import { useI18n } from "@/i18n";
+import { publicPath } from "@/lib/paths";
 
 /** Before and after on one frame; a range input moves the seam. The caption says the two photos are different places. */
 export function Proof() {
@@ -22,14 +23,14 @@ export function Proof() {
       <figure className="lp-compare" style={{ "--pos": `${position}%` } as CSSProperties}>
         <div className="lp-compare__frame">
           <Image
-            src="/landing/before.webp"
+            src={publicPath("/landing/before.webp")}
             alt={p.before}
             fill
             sizes="(min-width: 48em) 60vw, 94vw"
             className="lp-compare__img"
           />
           <Image
-            src="/landing/after.webp"
+            src={publicPath("/landing/after.webp")}
             alt={p.after}
             fill
             sizes="(min-width: 48em) 60vw, 94vw"

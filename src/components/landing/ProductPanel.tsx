@@ -3,11 +3,12 @@
 import { useRef, useState } from "react";
 import type { KeyboardEvent } from "react";
 import { useI18n } from "@/i18n";
+import { publicPath, reportHref } from "@/lib/paths";
 import { ButtonLink } from "../ui/Button";
 
 const SCREENS = [
   { key: "map", href: "/map" },
-  { key: "card", href: "/r/1" },
+  { key: "card", href: reportHref(1) },
   { key: "org", href: "/org" },
   { key: "mod", href: "/mod" },
 ] as const;
@@ -72,9 +73,9 @@ export function ProductPanel() {
         >
           {SCREENS.map((item, index) => (
             <picture key={item.key}>
-              <source media="(max-width: 47.99em)" srcSet={`/landing/screen-${item.key}-m.webp`} />
+              <source media="(max-width: 47.99em)" srcSet={publicPath(`/landing/screen-${item.key}-m.webp`)} />
               <img
-                src={`/landing/screen-${item.key}.webp`}
+                src={publicPath(`/landing/screen-${item.key}.webp`)}
                 alt={index === active ? p.tabs[item.key].alt : ""}
                 aria-hidden={index === active ? undefined : true}
                 width={1440}

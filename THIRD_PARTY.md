@@ -1,4 +1,4 @@
-# Third-party fonts in `public/fonts/`
+# Third-party fonts in `src/styles/fonts/`
 
 **Статус: прототип / демо.** Provenance of the two typefaces that the web demo serves. Written for FE-P02 (20.10.2026). The files are not edited.
 
@@ -17,11 +17,12 @@
 1. The deck folder `deck/assets/fonts/` holds the same faces, saved on 09.10.2026 together with `gf.css`, a Google Fonts stylesheet that lists the exact `fonts.gstatic.com` URLs (Onest v11, JetBrains Mono v24, subsets `latin`, `cyrillic`, `cyrillic-ext`).
 2. On 20.10.2026 FE-P01 copied one file per face and subset into `prototipe/web/public/fonts/`, renamed without the weight (`Onest-400-cyrillic.woff2` → `Onest-cyrillic.woff2`). The files are variable fonts, so one file covers every weight the prototype uses; `src/styles/fonts.css` declares the weight range and the `unicode-range` of each subset.
 3. The two licence texts were added next to the fonts in the same step.
+4. On 20.10.2026 FE-P04 moved the six files and the two licence texts, unchanged, to `src/styles/fonts/`, so the CSS bundler resolves them and adds the base path of the GitHub Pages build.
 
 ## Verification done on 20.10.2026
 
 - SHA-256 of the six `.woff2` files equals the SHA-256 of the matching files in `deck/assets/fonts/`.
-- The six files were downloaded again from the `fonts.gstatic.com` URLs listed in `deck/assets/fonts/gf.css` (400-weight entry of each subset): all six are byte-identical to the files in `public/fonts/`.
+- The six files were downloaded again from the `fonts.gstatic.com` URLs listed in `deck/assets/fonts/gf.css` (400-weight entry of each subset): all six are byte-identical to the files in `src/styles/fonts/`.
 - `OFL-Onest.txt` and `OFL-JetBrainsMono.txt` are byte-identical to `ofl/onest/OFL.txt` and `ofl/jetbrainsmono/OFL.txt` in the `google/fonts` repository (`raw.githubusercontent.com/google/fonts/main/ofl/…`).
 - The `name` table of each file (read with `fontkit`) gives the family, the version and the copyright line in the table above and the licence URL (`https://openfontlicense.org` for Onest, `https://scripts.sil.org/OFL` for JetBrains Mono).
 

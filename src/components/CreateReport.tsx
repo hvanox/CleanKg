@@ -8,6 +8,7 @@ import { useI18n } from "@/i18n";
 import { categoryLabel } from "@/i18n/messages";
 import { DESCRIPTION_MAX, EMPTY_DESCRIPTION } from "@/lib/config";
 import { fmt, parseCoordinate } from "@/lib/format";
+import { reportHref } from "@/lib/paths";
 import { DEFAULT_PERSONA_KEY, PERSONAS } from "@/lib/personas";
 import { useCategories, useCreateReport } from "@/lib/queries";
 import { missingFields } from "@/lib/submit";
@@ -88,7 +89,7 @@ export function CreateReport() {
           </p>
         </Toast>
         <div className="kg-actions">
-          <ButtonLink href={`/r/${created.id}`} variant="primary">
+          <ButtonLink href={reportHref(created.id)} variant="primary">
             {m.create.successOpen}
           </ButtonLink>
           <Button onClick={reset}>{m.create.successAnother}</Button>

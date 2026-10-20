@@ -18,6 +18,7 @@ import {
   TILE_URL,
 } from "@/lib/config";
 import { fmt, formatDateTime } from "@/lib/format";
+import { reportHref } from "@/lib/paths";
 import type { Report, ReportFeature } from "@/lib/types";
 import { DemoChip, StatusChip } from "@/components/ui/Chips";
 import { loadLeaflet, prefersReducedMotion, tokenPx, type LeafletModule } from "./leaflet";
@@ -55,7 +56,7 @@ function PopupContent({ report }: { report: Report }) {
         <dt>{m.map.popupAuthor}</dt>
         <dd>{authorLabel(report, m.anonymousAuthor)}</dd>
       </dl>
-      <Link href={`/r/${report.id}`} className="kg-btn kg-btn--secondary">
+      <Link href={reportHref(report.id)} className="kg-btn kg-btn--secondary">
         {m.map.popupOpen}
       </Link>
     </div>

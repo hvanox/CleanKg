@@ -5,15 +5,16 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useI18n } from "@/i18n";
 import { LOCALES, type Locale } from "@/i18n/messages";
+import { normalizePath } from "@/lib/paths";
 import { ButtonLink } from "./ui/Button";
 
 /** Floating island navigation: brand and links on the left, language (and on the landing the main action) on the right. */
 export function Header() {
   const { locale, m, setLocale } = useI18n();
-  const pathname = usePathname() ?? "";
+  const pathname = normalizePath(usePathname());
   const landing = pathname === "/";
   const links = [
-    { href: "/map", label: m.nav.map, current: pathname === "/map" || pathname.startsWith("/r/") },
+    { href: "/map", label: m.nav.map, current: pathname === "/map" || pathname === "/r" },
     { href: "/new", label: m.nav.newReport, current: pathname === "/new" },
     { href: "/org", label: m.nav.org, current: pathname === "/org" },
     { href: "/mod", label: m.nav.mod, current: pathname === "/mod" },

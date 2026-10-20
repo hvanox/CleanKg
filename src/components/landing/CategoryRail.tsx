@@ -15,6 +15,7 @@ import type { Icon } from "@phosphor-icons/react";
 import Image from "next/image";
 import { useRef } from "react";
 import { useI18n } from "@/i18n";
+import { publicPath } from "@/lib/paths";
 
 type CategoryCode =
   | "illegal_dump"
@@ -86,7 +87,7 @@ export function CategoryRail() {
             <li key={category.code} className="lp-cat" data-tone={category.tone}>
               {category.photo ? (
                 <Image
-                  src={category.photo.src}
+                  src={publicPath(category.photo.src)}
                   alt={r[category.photo.alt]}
                   fill
                   sizes="(min-width: 48em) 360px, 80vw"

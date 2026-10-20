@@ -1,4 +1,4 @@
-import { readFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { screen, within } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
@@ -9,8 +9,10 @@ import { renderApp } from "./helpers";
 vi.mock("next/navigation", () => ({ usePathname: () => "/" }));
 
 const DOCS = resolve(__dirname, "../../../Docs");
-const facts = readFileSync(resolve(DOCS, "05-pitch/facts.md"), "utf8");
-const sdg = readFileSync(resolve(DOCS, "02-product/sdg-11.md"), "utf8");
+// prototipe/web is also a repository of its own (GitHub Pages workflow), where Docs/ is not checked out:
+// the two tests that compare the landing with its source documents then skip, and run in the full project tree.
+const hasDocs = existsSync(DOCS);
+const doc = (file: string) => readFileSync(resolve(DOCS, file), "utf8");
 
 describe("landing", () => {
   it("leads with the mechanism and one main action to the map", () => {
@@ -22,7 +24,8 @@ describe("landing", () => {
     for (const link of links) expect(link).toHaveAttribute("href", "/map");
   });
 
-  it("HR-1: every world number links to its source in Docs/05-pitch/facts.md", () => {
+  it.skipIf(!hasDocs)("HR-1: every world number links to its source in Docs/05-pitch/facts.md", () => {
+    const facts = doc("05-pitch/facts.md");
     renderApp(<Landing />);
     for (const item of ru.landing.facts.items) {
       expect(facts).toContain(item.url);
@@ -31,7 +34,8 @@ describe("landing", () => {
     }
   });
 
-  it("HR-3: the SDG 11.6 quote is word for word the official text", () => {
+  it.skipIf(!hasDocs)("HR-3: the SDG 11.6 quote is word for word the official text", () => {
+    const sdg = doc("02-product/sdg-11.md");
     renderApp(<Landing />);
     expect(sdg).toContain(`«${ru.landing.sdg.quote}»`);
     expect(screen.getByText(`«${ru.landing.sdg.quote}»`)).toBeInTheDocument();

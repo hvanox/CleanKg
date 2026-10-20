@@ -1,4 +1,5 @@
-import { API_BASE_URL } from "./config";
+import { ApiError, NETWORK_ERROR, VALIDATION_ERROR } from "./api-error";
+import { API_BASE_URL, isBrowserMode } from "./config";
 import type {
   ActorKind,
   CategoriesResponse,
@@ -9,35 +10,20 @@ import type {
   Status,
 } from "./types";
 
-/** An API failure, identified by the `code` of `{"detail": {"code": ...}}`. */
-export class ApiError extends Error {
-  readonly status: number;
-  readonly code: string;
+export { ApiError, NETWORK_ERROR, VALIDATION_ERROR } from "./api-error";
 
-  constructor(status: number, code: string, message: string) {
-    super(message);
-    this.name = "ApiError";
-    this.status = status;
-    this.code = code;
-  }
-}
-
-/** Codes the UI has a message for; anything else falls back to `generic`. */
-export const NETWORK_ERROR = "network_error";
-export const VALIDATION_ERROR = "validation_error";
-
-function codeFromBody(status: number, body: unknown): { code: string; message: string } {
+function codeFromBody(status: number, body: unknown): { code: string; message: string; detail: unknown } {
   const detail = (body as { detail?: unknown } | null)?.detail;
   if (detail && typeof detail === "object" && !Array.isArray(detail)) {
     const { code, message } = detail as { code?: unknown; message?: unknown };
     if (typeof code === "string") {
-      return { code, message: typeof message === "string" ? message : code };
+      return { code, message: typeof message === "string" ? message : code, detail };
     }
   }
   if (Array.isArray(detail)) {
-    return { code: VALIDATION_ERROR, message: "validation" };
+    return { code: VALIDATION_ERROR, message: "validation", detail };
   }
-  return { code: `http_${status}`, message: `HTTP ${status}` };
+  return { code: `http_${status}`, message: `HTTP ${status}`, detail };
 }
 
 export async function apiFetch<T>(
@@ -45,6 +31,19 @@ export async function apiFetch<T>(
   init: RequestInit & { actorId?: string } = {},
 ): Promise<T> {
   const { actorId, headers, ...rest } = init;
+
+  // NEXT_PUBLIC_DATA_MODE=browser (GitHub Pages build): the same call is answered by the in-browser demo API,
+  // which throws the same ApiError. Loaded lazily so the default build does not carry it.
+  if (isBrowserMode()) {
+    const { demoRequest } = await import("./demo-api");
+    return demoRequest<T>(path, {
+      method: rest.method,
+      body: typeof rest.body === "string" ? rest.body : undefined,
+      actorId,
+      signal: rest.signal ?? undefined,
+    });
+  }
+
   const merged = new Headers(headers);
   if (actorId) merged.set("X-Actor-Id", actorId);
   if (rest.body && !merged.has("Content-Type")) merged.set("Content-Type", "application/json");
@@ -65,8 +64,8 @@ export async function apiFetch<T>(
     body = null;
   }
   if (!response.ok) {
-    const { code, message } = codeFromBody(response.status, body);
-    throw new ApiError(response.status, code, message);
+    const { code, message, detail } = codeFromBody(response.status, body);
+    throw new ApiError(response.status, code, message, detail);
   }
   return body as T;
 }
