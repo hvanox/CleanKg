@@ -1,0 +1,281 @@
+/*
+ * The one token block for prototipe/web.
+ * Visual world: redesign of 20.10.2026 (surface brief .impeccable/surfaces/prototipe-web.md):
+ * cool mineral ground, true ink, one vermilion field, Onest at large sizes, pill controls, 28px panels.
+ * Component CSS and components use these variables only: no hex, px or duration outside this file.
+ * Name mapping: dot-name `status.under_review` -> `--kg-status-under-review`.
+ *
+ * Shape rule (one system): every control and chip is a pill; inputs are --kg-radius-small;
+ * cards, panels, map, table, rail and dialog are --kg-radius-large; photos inside panels are --kg-radius-medium.
+ */
+:root {
+  /* Colour */
+  --kg-color-paper: #eef0ed;
+  --kg-color-paper-high: #f7f8f6;
+  --kg-color-surface: #ffffff;
+  --kg-color-surface-sunken: #e4e7e3;
+  --kg-color-ink: #121513;
+  --kg-color-ink-soft: #2a2f2b;
+  --kg-color-ink-muted: #525852;
+  --kg-color-ink-inverse: #f6f7f5;
+  --kg-color-ink-inverse-muted: #b7bdb6;
+  --kg-color-line: #d3d8d2;
+  --kg-color-line-strong: #868c86;
+  --kg-color-line-inverse: #3a403b;
+  --kg-color-accent: #e5402b;
+  --kg-color-accent-deep: #a8291a;
+  --kg-color-accent-tint: #fde7e2;
+  --kg-color-accent-ink: #2b0904;
+  --kg-color-info: #1b57a0;
+  --kg-color-warning: #855600;
+  --kg-color-success: #1a6a3b;
+  --kg-color-focus: #121513;
+  --kg-color-selection: #fbc9bf;
+
+  /* Lifecycle status tokens: label + icon + colour, never colour alone */
+  --kg-status-submitted-color: #56687a;
+  --kg-status-submitted-tint: #eaeff3;
+  --kg-status-under-review-color: #1b57a0;
+  --kg-status-under-review-tint: #e5edf7;
+  --kg-status-in-progress-color: #855600;
+  --kg-status-in-progress-tint: #fbefd6;
+  --kg-status-resolved-color: #1a6a3b;
+  --kg-status-resolved-tint: #e1f0e6;
+  --kg-status-confirmed-color: #0d5a4c;
+  --kg-status-confirmed-tint: #dcefe9;
+  --kg-status-disputed-color: #a8291a;
+  --kg-status-disputed-tint: #fde7e2;
+  --kg-status-rejected-color: #61665f;
+  --kg-status-rejected-tint: #ebece9;
+
+  /* Type: Onest only; mono for coordinates, ids and figures */
+  --kg-font-ui: "Onest", system-ui, "Noto Sans", "DejaVu Sans", sans-serif;
+  /* JetBrains Mono has no Ңң; the browser falls back to Onest per glyph. */
+  --kg-font-mono: "JetBrains Mono", "Onest", ui-monospace, "DejaVu Sans Mono", monospace;
+
+  /* Landing scale (Persuade) */
+  --kg-type-hero-size: clamp(54px, 5.6vw, 104px);
+  --kg-type-hero-weight: 600;
+  --kg-type-hero-line: 0.94;
+  --kg-type-hero-tracking: -0.045em;
+  --kg-type-section-size: clamp(36px, 5.6vw, 88px);
+  --kg-type-section-weight: 600;
+  --kg-type-section-line: 1;
+  --kg-type-section-tracking: -0.04em;
+  --kg-type-statement-size: clamp(28px, 3.9vw, 60px);
+  --kg-type-statement-weight: 500;
+  --kg-type-statement-line: 1.14;
+  --kg-type-statement-tracking: -0.03em;
+  --kg-type-lead-size: clamp(18px, 1.5vw, 22px);
+  --kg-type-lead-weight: 400;
+  --kg-type-lead-line: 1.45;
+  --kg-type-fact-size: clamp(52px, 6vw, 100px);
+  --kg-type-fact-weight: 600;
+  --kg-type-fact-line: 0.95;
+  --kg-type-fact-tracking: -0.05em;
+
+  /* App scale (Operate) */
+  --kg-type-display-size: clamp(32px, 4vw, 48px);
+  --kg-type-display-weight: 600;
+  --kg-type-display-line: 1.05;
+  --kg-type-display-tracking: -0.035em;
+  --kg-type-h1-size: 30px;
+  --kg-type-h1-weight: 600;
+  --kg-type-h1-line: 36px;
+  --kg-type-h1-tracking: -0.025em;
+  --kg-type-h2-size: 22px;
+  --kg-type-h2-weight: 600;
+  --kg-type-h2-line: 28px;
+  --kg-type-h2-tracking: -0.015em;
+  --kg-type-h3-size: 18px;
+  --kg-type-h3-weight: 600;
+  --kg-type-h3-line: 24px;
+  --kg-type-h3-tracking: -0.01em;
+  --kg-type-body-size: 16px;
+  --kg-type-body-weight: 400;
+  --kg-type-body-line: 24px;
+  --kg-type-body-tracking: 0;
+  --kg-type-body-small-size: 14px;
+  --kg-type-body-small-weight: 400;
+  --kg-type-body-small-line: 20px;
+  --kg-type-body-small-tracking: 0;
+  --kg-type-caption-size: 13px;
+  --kg-type-caption-weight: 400;
+  --kg-type-caption-line: 18px;
+  --kg-type-caption-tracking: 0;
+  --kg-type-label-size: 12px;
+  --kg-type-label-weight: 600;
+  --kg-type-label-line: 16px;
+  --kg-type-label-tracking: 0.04em;
+  --kg-type-mono-data-size: 13px;
+  --kg-type-mono-data-weight: 400;
+  --kg-type-mono-data-line: 18px;
+  --kg-type-mono-data-tracking: 0;
+  --kg-type-mono-figure-size: 24px;
+  --kg-type-mono-figure-weight: 500;
+  --kg-type-mono-figure-line: 28px;
+  --kg-type-mono-figure-tracking: 0;
+
+  /* Spacing and layout */
+  --kg-space-1: 4px;
+  --kg-space-2: 8px;
+  --kg-space-3: 12px;
+  --kg-space-4: 16px;
+  --kg-space-5: 24px;
+  --kg-space-6: 32px;
+  --kg-space-7: 48px;
+  --kg-space-8: 64px;
+  --kg-space-9: 96px;
+  --kg-space-10: 144px;
+  --kg-section-space: clamp(96px, 14vw, 200px);
+  --kg-layout-gutter: 16px;
+  --kg-layout-max-content: 1240px;
+  --kg-layout-max-wide: 1440px;
+  --kg-layout-measure: 66ch;
+
+  /* Radius (see shape rule above) */
+  --kg-radius-none: 0;
+  --kg-radius-small: 14px;
+  --kg-radius-medium: 20px;
+  --kg-radius-large: 28px;
+  --kg-radius-pill: 999px;
+
+  /* Lines and elevation: shadows are ink-tinted, offset and soft */
+  --kg-border-width: 1px;
+  --kg-border-hairline: var(--kg-border-width) solid var(--kg-color-line);
+  --kg-border-control: var(--kg-border-width) solid var(--kg-color-line-strong);
+  --kg-elevation-none: none;
+  --kg-elevation-raised: 0 1px 2px rgba(18, 21, 19, 0.05), 0 10px 28px -14px rgba(18, 21, 19, 0.16);
+  --kg-elevation-island: inset 0 1px 0 rgba(255, 255, 255, 0.9), 0 14px 40px -16px rgba(18, 21, 19, 0.24);
+  --kg-elevation-card: 0 2px 4px rgba(18, 21, 19, 0.06), 0 30px 60px -24px rgba(18, 21, 19, 0.35);
+  --kg-elevation-overlay: 0 28px 72px -18px rgba(18, 21, 19, 0.34);
+  --kg-island-fill: rgba(255, 255, 255, 0.84);
+  --kg-island-blur: 18px;
+  --kg-island-edge: rgba(255, 255, 255, 0.7);
+  --kg-island-hover: translate(2px, -1px) scale(1.06);
+  --kg-marker-hover: 1.12;
+  --kg-focus-halo: 4px;
+  --kg-scrim-blur: 4px;
+
+  /* Motion: exponential ease-out from an already-visible default */
+  --kg-motion-fast: 160ms;
+  --kg-motion-base: 320ms;
+  --kg-motion-slow: 720ms;
+  --kg-motion-ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --kg-motion-press: 0.97;
+
+  /* Targets, icons, focus */
+  --kg-target-touch: 48px;
+  --kg-target-thumb: 56px;
+  --kg-icon-size: 20px;
+  --kg-icon-size-button: 24px;
+  --kg-icon-size-empty: 32px;
+  --kg-icon-size-feature: 56px;
+  --kg-focus-width: 2px;
+  --kg-focus-offset: 3px;
+
+  /* «Прототип» banner and demo chip */
+  --kg-banner-height: 36px;
+  --kg-demo-chip-height: 18px;
+  --kg-demo-chip-padding: 7px;
+
+  /* Shell */
+  --kg-island-height: 60px;
+  --kg-island-gap: 12px;
+  --kg-locale-width-compact: 8.75rem;
+  --kg-select-chevron: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4 6l4 4 4-4' fill='none' stroke='%23121513' stroke-width='1.75' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  --kg-select-chevron-size: 16px;
+  --kg-island-top: calc(var(--kg-banner-height) + var(--kg-island-gap));
+
+  /* Screens */
+  --kg-map-height: 62dvh;
+  --kg-map-tile-filter: grayscale(0.85) contrast(0.92) brightness(1.05);
+  --kg-map-height-min: 340px;
+  --kg-map-height-picker: 300px;
+  --kg-marker-size: 34px;
+  --kg-col-min: 20rem;
+  --kg-photo-tile-ratio: 4 / 3;
+  --kg-textarea-min-height: 120px;
+  --kg-col-min-narrow: 9rem;
+  --kg-layout-narrow: 46rem;
+  --kg-photo-max-width: 30rem;
+  --kg-rail-width: 17rem;
+  --kg-ops-main-min: 62rem;
+  --kg-dialog-width: 34rem;
+  --kg-color-scrim: rgba(18, 21, 19, 0.46);
+
+  /* Landing */
+  --kg-pin-size: 155vw;
+  --kg-pin-center-x: 50%;
+  --kg-pin-center-y: 100%;
+  --kg-parade-card-width: clamp(200px, 62vw, 260px);
+  --kg-parade-length: 190vh;
+  --kg-parade-step: 60deg;
+  --kg-parade-radius: 0.22;
+  --kg-hero-copy-width: 100%;
+  --kg-arc-spin: 70deg;
+  --kg-ring-size: min(68vw, 540px);
+  --kg-device-screen-ratio: 390 / 844;
+  --kg-ring-length: 140vh;
+  --kg-hero-copy-top: calc(var(--kg-island-height) + var(--kg-space-5));
+  --kg-rail-card-width: clamp(260px, 26vw, 360px);
+  --kg-rail-card-height: clamp(380px, 46vw, 520px);
+  --kg-device-radius: 36px;
+  --kg-compare-ratio: 16 / 10;
+
+  /* Landing values that used to live as literals in landing.css */
+  --kg-arc-type-size: 23px;
+  --kg-type-sdg-support-size: 19px;
+  --kg-type-cat-size: clamp(24px, 2.2vw, 32px);
+  --kg-photo-scrim: rgba(18, 21, 19, 0.86);
+  --kg-measure-lead: 52ch;
+  --kg-measure-short: 34ch;
+  --kg-measure-note: 44ch;
+
+  /* Queue tables stack into labelled blocks below the breakpoint (switched in the media query below). */
+  --kg-table-display: block;
+  --kg-table-body-display: block;
+  --kg-table-row-display: block;
+  --kg-table-cell-display: block;
+  --kg-table-head-display: none;
+  --kg-table-label-display: block;
+  --kg-table-report-width: auto;
+  --kg-z-overlay: 1;
+  --kg-z-island: 3;
+  --kg-z-banner: 4;
+}
+
+/* The only breakpoint. A custom property cannot be used inside @media, so the literal lives here, in the token file. */
+@media (min-width: 48em) {
+  :root {
+    --kg-layout-gutter: 32px;
+    --kg-map-height: 68dvh;
+    --kg-pin-size: min(78vw, 1100px);
+    --kg-device-screen-ratio: 1440 / 900;
+    --kg-parade-card-width: clamp(170px, 15vw, 230px);
+    --kg-pin-center-x: 74%;
+    --kg-parade-length: 170vh;
+    --kg-parade-step: 30deg;
+    --kg-parade-radius: 0.37;
+    --kg-hero-copy-width: 58%;
+    --kg-ring-length: 160vh;
+    --kg-hero-copy-top: calc(var(--kg-island-height) + var(--kg-space-8));
+    --kg-table-display: table;
+    --kg-table-body-display: table-row-group;
+    --kg-table-row-display: table-row;
+    --kg-table-cell-display: table-cell;
+    --kg-table-head-display: table-header-group;
+    --kg-table-label-display: none;
+    --kg-table-report-width: 46%;
+  }
+}
+
+/* Reduced motion: no transitions, no scroll-driven choreography (landing.css checks the same query). */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --kg-motion-fast: 0ms;
+    --kg-motion-base: 0ms;
+    --kg-motion-slow: 0ms;
+    --kg-motion-press: 1;
+  }
+}
